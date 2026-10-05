@@ -114,3 +114,51 @@ Only add these skills to your resume as you actually implement and verify them.
 - https://docs.python.org/3/using/windows.html
 - https://code.visualstudio.com/docs/python/python-quick-start
 - https://code.visualstudio.com/docs/terminal/getting-started
+
+## Run the complete demo locally
+
+Requires Python 3 and the .NET 10 SDK.
+
+Run all commands from the main SupplyChain-Automation-Demo folder.
+
+### 1. Validate inventory
+
+```powershell
+py validate_inventory.py
+```
+
+This generates shortages.json from inventory.json.
+
+### 2. Start the C# API
+
+```powershell
+dotnet run --project InventoryApi --no-launch-profile --urls http://localhost:5050
+```
+
+Leave this terminal running.
+
+### 3. Start the Blazor dashboard in a second terminal
+
+```powershell
+dotnet run --project InventoryDashboard --no-launch-profile -- --urls http://localhost:5051 --environment Development
+```
+
+Open http://localhost:5051 in your browser.
+
+### Update the data
+
+Edit inventory.json, save it, and run the Python validator again.
+Click Refresh data on the dashboard to load the updated results.
+
+### API endpoints
+
+- GET /api/inventory — all inventory records
+- GET /api/shortages — parts below their reorder points
+
+Both endpoints were manually checked in Postman and returned 200 OK.
+
+### Scope
+
+This portfolio demo uses fictional data stored in local JSON files.
+The gap measures units below reorder thresholds, not a full recommended
+order quantity. The dashboard currently runs locally.
