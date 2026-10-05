@@ -1,0 +1,143 @@
+﻿@page "/"
+@rendermode InteractiveServer
+@using System.Net.Http.Json
+@inject IHttpClientFactory ClientFactory
+
+<PageTitle>Supply Chain Dashboard</PageTitle>
+
+<h1>Supply Chain Inventory Dashboard</h1>
+<p class="text-muted">Portfolio demo using fictional inventory data.</p>
+
+<button class="btn btn-primary mb-4"
+        @onclick="LoadData"
+        disabled="@loading">
+    Refresh data
+</button>
+
+@if (loading)
+{
+    <p>Loading inventory...</p>
+}
+else if (error is not null)
+{
+    <div class="alert alert-danger">@error</div>
+}
+else
+{
+    <div class="row g-3 mb-4">
+        <div class="col-md-4">
+            <div class="card p-3">
+                <span>Total parts</span>
+                <strong class="fs-2">@inventory.Count</strong>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card p-3">
+                <span>Parts below reorder point</span>
+                <strong class="fs-2 text-danger">@shortages.Count</strong>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card p-3">
+                <span>Total gap to reorder points</span>
+                <strong class="fs-2">@shortages.Sum(p => p.GapToReorderPoint) units</strong>
+            </div>
+        </div>
+    </div>
+
+    <h2>Inventory overview</h2>
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Part number</th>
+                    <th>Supplier</th>
+                    <th>On hand</th>
+                    <th>Reorder point</th>
+                    <th>Lead time</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var part in inventory)
+                {
+                    <tr>
+                        <td>@part.PartNumber</td>
+                        <td>@part.Supplier</td>
+                        <td>@part.QuantityOnHand</td>
+                        <td>@part.ReorderPoint</td>
+                        <td>@part.LeadTimeDays days</td>
+                        <td>
+                            @if (part.QuantityOnHand < part.ReorderPoint)
+                            {
+                                <span class="badge bg-danger">Below reorder point</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-success">At or above reorder point</span>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <p class="text-muted">
+        After changing inventory.json, run the Python validator
+        to regenerate shortages.json, then click Refresh data.
+        The gap measures units below reorder thresholds.
+    </p>
+}
+
+@code {
+    private List<InventoryPart> inventory = new();
+    private List<InventoryPart> shortages = new();
+    private bool loading = true;
+    private string? error;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadData();
+    }
+
+    private async Task LoadData()
+    {
+        loading = true;
+        error = null;
+
+        try
+        {
+            using var client = ClientFactory.CreateClient("InventoryApi");
+
+            var newInventory = await client.GetFromJsonAsync<List<InventoryPart>>(
+                "api/inventory")
+                ?? throw new InvalidOperationException("Inventory response was empty.");
+
+            var newShortages = await client.GetFromJsonAsync<List<InventoryPart>>(
+                "api/shortages")
+                ?? throw new InvalidOperationException("Shortages response was empty.");
+
+            inventory = newInventory;
+            shortages = newShortages;
+        }
+        catch (Exception)
+        {
+            error = "Could not load inventory data. Check that the API is running on port 5050 and both JSON files are valid.";
+        }
+        finally
+        {
+            loading = false;
+        }
+    }
+
+    public class InventoryPart
+    {
+        public string PartNumber { get; set; } = "";
+        public string Supplier { get; set; } = "";
+        public int QuantityOnHand { get; set; }
+        public int ReorderPoint { get; set; }
+        public int LeadTimeDays { get; set; }
+        public int GapToReorderPoint { get; set; }
+    }
+}
