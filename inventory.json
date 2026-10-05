@@ -1,0 +1,72 @@
+[
+  {
+    "partNumber": "DEMO-101",
+    "supplier": "Sample Supplier A",
+    "quantityOnHand": 25,
+    "reorderPoint": 20,
+    "leadTimeDays": 14
+  },
+  {
+    "partNumber": "DEMO-102",
+    "supplier": "Sample Supplier B",
+    "quantityOnHand": 45,
+    "reorderPoint": 30,
+    "leadTimeDays": 7
+  },
+  {
+    "partNumber": "DEMO-103",
+    "supplier": "Sample Supplier A",
+    "quantityOnHand": 4,
+    "reorderPoint": 15,
+    "leadTimeDays": 21
+  },
+  {
+    "partNumber": "DEMO-104",
+    "supplier": "Sample Supplier C",
+    "quantityOnHand": 70,
+    "reorderPoint": 40,
+    "leadTimeDays": 10
+  },
+  {
+    "partNumber": "DEMO-105",
+    "supplier": "Sample Supplier B",
+    "quantityOnHand": 8,
+    "reorderPoint": 25,
+    "leadTimeDays": 28
+  },
+  {
+    "partNumber": "DEMO-106",
+    "supplier": "Sample Supplier D",
+    "quantityOnHand": 0,
+    "reorderPoint": 10,
+    "leadTimeDays": 35
+  },
+  {
+    "partNumber": "DEMO-107",
+    "supplier": "Sample Supplier C",
+    "quantityOnHand": 32,
+    "reorderPoint": 20,
+    "leadTimeDays": 12
+  },
+  {
+    "partNumber": "DEMO-108",
+    "supplier": "Sample Supplier D",
+    "quantityOnHand": 18,
+    "reorderPoint": 18,
+    "leadTimeDays": 9
+  },
+  {
+    "partNumber": "DEMO-109",
+    "supplier": "Sample Supplier A",
+    "quantityOnHand": 6,
+    "reorderPoint": 30,
+    "leadTimeDays": 45
+  },
+  {
+    "partNumber": "DEMO-110",
+    "supplier": "Sample Supplier B",
+    "quantityOnHand": 95,
+    "reorderPoint": 60,
+    "leadTimeDays": 5
+  }
+]

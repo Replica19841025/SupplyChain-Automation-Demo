@@ -1,0 +1,34 @@
+[
+  {
+    "partNumber": "DEMO-103",
+    "supplier": "Sample Supplier A",
+    "quantityOnHand": 4,
+    "reorderPoint": 15,
+    "leadTimeDays": 21,
+    "gapToReorderPoint": 11
+  },
+  {
+    "partNumber": "DEMO-105",
+    "supplier": "Sample Supplier B",
+    "quantityOnHand": 8,
+    "reorderPoint": 25,
+    "leadTimeDays": 28,
+    "gapToReorderPoint": 17
+  },
+  {
+    "partNumber": "DEMO-106",
+    "supplier": "Sample Supplier D",
+    "quantityOnHand": 0,
+    "reorderPoint": 10,
+    "leadTimeDays": 35,
+    "gapToReorderPoint": 10
+  },
+  {
+    "partNumber": "DEMO-109",
+    "supplier": "Sample Supplier A",
+    "quantityOnHand": 6,
+    "reorderPoint": 30,
+    "leadTimeDays": 45,
+    "gapToReorderPoint": 24
+  }
+]
